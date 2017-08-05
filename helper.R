@@ -247,22 +247,22 @@ gghist <- function(data, x, tlog = F, type = "count", xlab = NULL, bin = 50) {
         xlab <- toupper(ifelse(is.null(xlab), .x, xlab))
         p <- ggplot(data, aes(x = xcol))
     } else {
-        xcol <- log(data[[.x]] + 1)
+        xcol <- log1p(data[[.x]])
         xlab <- toupper(ifelse(is.null(xlab), paste(.x, "(escala logaritmica)"), 
                                paste(xlab, "(escala logaritmica)")))
-        p <-  ggplot(data, aes(x= log(data[[.x]] + 1)))
+        p <-  ggplot(data, aes(x = log1p(data[[.x]])))
     }
     
-    
-    
     if (type == "count") {
-        p <- p + geom_histogram(aes(y=..count..), bins = bin, colour="black", fill = "dodgerblue", alpha = 0.7) +
-            geom_vline(aes(xintercept  = mean(xcol, na.rm = T)), linetype="dashed", size=1.1, col = "red") +
+        p <- p + geom_histogram(aes(y =..count..), bins = bin, colour = "black", fill = "dodgerblue", alpha = 0.7) +
+            geom_vline(aes(xintercept  = mean(xcol, na.rm = T)), linetype = "dashed", size = 1.1, col = "red3") +
+            geom_vline(aes(xintercept  = median(xcol, na.rm = T)), linetype ="dashed", size = 1.1, col = "black") +
             xlab(xlab) + ylab("FRECUENCIA")  
     } else if (type == "density") {
-        p <- p + geom_histogram(aes(y=..density..), bins = bin, colour="black", fill = "dodgerblue", alpha = 0.7) +
-            geom_density(alpha=.4, colour = "black", size = 1, fill = "salmon") +
-            geom_vline(aes(xintercept  = mean(xcol, na.rm = T)), linetype="dashed", size=1.1, col = "red") +
+        p <- p + geom_histogram(aes(y =..density..), bins = bin, colour = "black", fill = "dodgerblue", alpha = 0.7) +
+            geom_density(alpha = .4, colour = "black", size = 1, fill = "salmon") +
+            geom_vline(aes(xintercept  = mean(xcol, na.rm = T)), linetype = "dashed", size = 1.1, col = "red3") +
+            geom_vline(aes(xintercept  = median(xcol, na.rm = T)), linetype ="dashed", size = 1.1, col = "black") +
             xlab(xlab) + ylab("DENSIDAD")  
     }
     
